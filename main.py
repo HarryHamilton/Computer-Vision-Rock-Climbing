@@ -3,18 +3,23 @@ import time
 import PoseModule as pm
 import clickModule as cm
 
+# Initialise variables required throughout the program
 cap = cv2.VideoCapture(0)  # Takes in webcam input
 pTime = 0
 detector = pm.poseDetector()
 
+
 while True:
     success, img = cap.read()
-    img = detector.findPose(img)
-    lmList = detector.findPosition(img)
-    if len(lmList) != 0:
-        print(lmList[20])  # Displays position 20, i.e. the right index finger, in console
-        cv2.circle(img, (lmList[20][1], lmList[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Places dot on the landmark we are tracking
-    # Calculates FPS
+    img = detector.find_pose(img)
+    lm_list = detector.find_position(img)
+
+    # The program will only display the landmark (right hand index finger) if it is detected
+    if len(lm_list) != 0:
+        print(lm_list[20])  # Displays coordinates of landmark 20, i.e. the right index finger, in console
+        cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Mark landmark w/ red dot
+
+    # Calculates and displays FPS
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
