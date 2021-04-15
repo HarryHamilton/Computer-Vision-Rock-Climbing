@@ -42,6 +42,14 @@ class PoseDetector:
                     cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)  # Makes the circles of landmarks bigger
         return lm_list
 
+def hit_or_miss(lm_list, x, y):
+    # TODO: Make this not hardcoded
+    """Checks if the landmark is in the target location."""
+    status = "MISS"
+    if (lm_list[20][1] > 100) and (lm_list[20][1] < 500) and (lm_list[20][2] > 300) and (lm_list[20][2] < 700):
+        status = "HIT"
+    return status
+
 
 def main():
     cap = cv2.VideoCapture(0)  # Takes in webcam input
@@ -52,9 +60,11 @@ def main():
         success, img = cap.read()
         img = detector.find_pose(img)
         lm_list = detector.find_position(img)
+
         if len(lm_list) != 0:
             print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
-        cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
+            print(hit_or_miss(lm_list, 100, 200))
+            cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
         # Calculates FPS
         c_time = time.time()
         fps = 1 / (c_time - p_time)

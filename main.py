@@ -16,7 +16,6 @@ while True:
 
     # The program will only display the landmark (right hand index finger) if it is detected
     if len(lm_list) != 0:
-        print(lm_list[20])  # Displays coordinates of landmark 20, i.e. the right index finger, in console
         cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Mark landmark w/ red dot
 
     # Calculates and displays FPS
