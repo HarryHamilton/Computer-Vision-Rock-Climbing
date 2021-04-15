@@ -92,11 +92,17 @@ def main():
             # Checks whether all of the targets have been hit or not
             if result == "------------------------- HIT -----------------------":
                 targets_hit = targets_hit + 1
-
             if targets_hit == len(targets):
                 finished(img)
 
             cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
+
+        # Displays number of targets hit
+        cv2.putText(img, "Targets hit: ", (30, 200), cv2.FONT_ITALIC, 1,
+                    (102, 255, 102), 2)
+        cv2.putText(img, str(int(targets_hit)), (220, 200), cv2.FONT_ITALIC, 1,
+                    (102, 255, 102), 2)
+
 
         # Calculates FPS and displays
         c_time = time.time()
