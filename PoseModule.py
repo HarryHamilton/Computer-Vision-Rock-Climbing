@@ -43,11 +43,17 @@ class PoseDetector:
         return lm_list
 
 
-def hit_or_miss(lm_list, x, y):
+def hit_or_miss(lm_list, target_x, target_y):
     # TODO: Make this not hardcoded
-    """Checks if the landmark is in the target location."""
+    """Checks if the landmark is in the target location. This works by
+    taking in the current location of the landmark (right hand) and comparing
+    it to the target coordinate that has been passed in via parameters. To make
+    the game easier, the users right hand is able to be in a range of + or -
+    50 pixels from the target.
+    """
     status = "MISS"
-    if (lm_list[20][1] > 100) and (lm_list[20][1] < 500) and (lm_list[20][2] > 300) and (lm_list[20][2] < 700):
+    if (lm_list[20][1] > (target_x - 50)) and (lm_list[20][1] < (target_x + 50)) and \
+            (lm_list[20][2] > (target_y - 50)) and (lm_list[20][2] < (target_y + 50)):
         status = "HIT"
     return status
 
@@ -57,6 +63,10 @@ def main():
     p_time = 0
     detector = PoseDetector()
 
+    # x and y coordinates of target
+    target_x = 629
+    target_y = 494
+
     while True:
         success, img = cap.read()
         img = detector.find_pose(img)
@@ -64,7 +74,7 @@ def main():
 
         if len(lm_list) != 0:
             print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
-            print(hit_or_miss(lm_list, 100, 200))
+            print(hit_or_miss(lm_list, target_x, target_y))  # Prints whether landmark is in target area
             cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
 
         # Calculates FPS and displays
