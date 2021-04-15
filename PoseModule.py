@@ -1,6 +1,7 @@
 import time
 import mediapipe as mp
 import cv2
+import clickModule as cm
 
 
 class PoseDetector:
@@ -53,6 +54,7 @@ def hit_or_miss(lm_list, x, y):
 
 
 def main():
+    print("ergererge")
     cap = cv2.VideoCapture(0)  # Takes in webcam input
     p_time = 0
     detector = PoseDetector()
@@ -63,8 +65,8 @@ def main():
         lm_list = detector.find_position(img)
 
         if len(lm_list) != 0:
-            print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
-            print(hit_or_miss(lm_list, 100, 200))
+            #print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
+            #print(hit_or_miss(lm_list, 100, 200))
             cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
 
         # Calculates FPS and displays
@@ -79,5 +81,28 @@ def main():
         cv2.waitKey(1)
 
 
-if __name__ == "__main__":
-    main()
+def points():
+    targets = []
+    cap = cv2.VideoCapture(0)  # Takes in webcam input
+    detector = PoseDetector()
+    flag = True
+
+    while flag:
+        success, img = cap.read()
+        img = detector.find_pose(img)
+
+        targets.append(cv2.setMouseCallback("Body Tracker", cm.mouse_points))
+
+
+        # Displays the actual window
+        cv2.imshow("Body Tracker", img)
+
+        cv2.waitKey(1)
+
+        if len(targets) >= 5:
+            flag = False
+            main()
+
+
+
+points()
