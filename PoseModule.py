@@ -42,6 +42,7 @@ class PoseDetector:
                     cv2.circle(img, (cx, cy), 5, (255, 0, 0), cv2.FILLED)  # Makes the circles of landmarks bigger
         return lm_list
 
+
 def hit_or_miss(lm_list, x, y):
     # TODO: Make this not hardcoded
     """Checks if the landmark is in the target location."""
@@ -65,12 +66,14 @@ def main():
             print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
             print(hit_or_miss(lm_list, 100, 200))
             cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
-        # Calculates FPS
+
+        # Calculates FPS and displays
         c_time = time.time()
         fps = 1 / (c_time - p_time)
         p_time = c_time
-        cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_ITALIC, 3,
-                    (255, 0, 0), 3)
+        cv2.putText(img, str(int(fps)), (100, 100), cv2.FONT_ITALIC, 3,
+                    (255, 0, 255), 10)
+
         # Displays the actual window
         cv2.imshow("Body Tracker", img)
         cv2.waitKey(1)
