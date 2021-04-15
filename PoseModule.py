@@ -62,22 +62,38 @@ def hit_or_miss(lm_list, targets):
     return status
 
 
+def finished(img):
+    """Displays winner text if all of the targets have been hit."""
+    cv2.putText(img, "WINNER", (250, 250), cv2.FONT_ITALIC, 7, (255, 255, 0), 10)
+
+
 def main():
     cap = cv2.VideoCapture(0)  # Takes in webcam input
     p_time = 0
     detector = PoseDetector()
 
     # Array that stores the targets.
-    targets = [[728, 485], [325, 458]]
+    targets = [[732, 420], [298, 370]]
+    targets_hit = 0
 
     while True:
         success, img = cap.read()
         img = detector.find_pose(img)
         lm_list = detector.find_position(img)
 
+        # Verifies that the landmark has been detected
         if len(lm_list) != 0:
             print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
-            print(hit_or_miss(lm_list, targets))  # Prints whether landmark is in target area
+            result = (hit_or_miss(lm_list, targets))  # records whether landmark is in target area
+            print(result)
+
+            # Checks whether all of the targets have been hit or not
+            if result == "------------------------- HIT -----------------------":
+                targets_hit = targets_hit + 1
+
+            if targets_hit == len(targets):
+                finished(img)
+
             cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
 
         # Calculates FPS and displays
