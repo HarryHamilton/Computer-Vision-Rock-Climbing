@@ -53,11 +53,12 @@ def main():
         img = detector.find_pose(img)
         lm_list = detector.find_position(img)
         if len(lm_list) != 0:
-            print(lm_list[20])  # Displays position 20, i.e. the right index finger
+            print(lm_list[20])  # Print coordinates of position 20, i.e. the right index finger
+        cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Adds red dot to right hand
         # Calculates FPS
-        cTime = time.time()
-        fps = 1 / (cTime - p_time)
-        p_time = cTime
+        c_time = time.time()
+        fps = 1 / (c_time - p_time)
+        p_time = c_time
         cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_ITALIC, 3,
                     (255, 0, 0), 3)
         # Displays the actual window
