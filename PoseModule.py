@@ -67,7 +67,9 @@ def finished(img):
     cv2.putText(img, "WINNER", (250, 250), cv2.FONT_ITALIC, 7, (255, 255, 0), 10)
 
 
+
 def main():
+    start_time = time.perf_counter()
     cap = cv2.VideoCapture(0)  # Takes in webcam input
     p_time = 0
     detector = PoseDetector()
@@ -100,8 +102,18 @@ def main():
         c_time = time.time()
         fps = 1 / (c_time - p_time)
         p_time = c_time
-        cv2.putText(img, str(int(fps)), (100, 100), cv2.FONT_ITALIC, 3,
-                    (255, 0, 255), 10)
+        cv2.putText(img, "FPS: ", (30, 100), cv2.FONT_ITALIC, 1,
+                    (255, 0, 255), 2)
+        cv2.putText(img, str(int(fps)), (100, 100), cv2.FONT_ITALIC, 1,
+                    (255, 0, 255), 2)
+
+        # Displays stopwatch
+        end_time = time.perf_counter()
+        total_time = (end_time - start_time)
+        total_time = round(total_time, 2)
+        total_time = str(total_time)
+        cv2.putText(img, "Timer: ", (30, 150), cv2.FONT_ITALIC, 1, (255, 255, 0), 2)
+        cv2.putText(img, total_time, (130, 150), cv2.FONT_ITALIC, 1, (255, 255, 0), 2)
 
         # Displays the actual window
         cv2.imshow("Body Tracker", img)
