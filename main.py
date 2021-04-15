@@ -18,15 +18,6 @@ while True:
     if len(lm_list) != 0:
         cv2.circle(img, (lm_list[20][1], lm_list[20][2]), 15, (0, 0, 255), cv2.FILLED)  # Mark landmark w/ red dot
 
-    # Calculates and displays FPS
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
-    cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_ITALIC, 3,
-                (255, 0, 0), 3)
 
-    # Displays the actual window
-    cv2.imshow("Body Tracker", img)
-    cv2.waitKey(1)
 
 
