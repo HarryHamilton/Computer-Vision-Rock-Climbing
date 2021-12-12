@@ -12,6 +12,9 @@ How to use the project
 3. Edit the coordinates in the code
 4. Run the project and start climbing
 
-Note
+Future plans
 --------------------------
-It is my intention to further develop the program to allow the user to select the coordinates by using their mousepad.
+* Allow the user to select the coordinates by using their mousepad.
+* Implement an AI 'training buddy' that can give information such as...
+  * Poor form on hangboards
+  * Stats on movement patterns
